@@ -1,2 +1,2 @@
 # quest-sideloader
-Batch Sideloader for Oculus Quest
+Batch Sideloader for Oculus Quest / Go
