@@ -30,7 +30,7 @@ echo [92mDONE[0m
 echo|set /p="[97mWaiting for the device... [0m"
 adb wait-for-device
 :: Get device informations and update the title.
-call:updateTitle %TITLE%
+call :updateTitle %TITLE%
 echo [92mDONE[0m
 echo(
 
@@ -66,7 +66,7 @@ goto successMsg
 
 :successMsg
 :: Get device informations and update the title.
-call:updateTitle %TITLE%
+call :updateTitle %TITLE%
 echo [92mInstallation successful.[0m
 pause
 goto quitScript
