@@ -22,11 +22,12 @@ set PATH=%PATH%;%ADBDIR%\
 if not exist *.apk goto Empty
 
 :: Start the adb server.
-echo [97mStarting the ADB server.[0m
-adb start-server
+echo|set /p="[97mStarting the ADB server... [0m"
+adb start-server > NUL
+echo [92mDONE[0m
 
 :: Wait until device is connected.
-echo [97mWaiting for the device...[0m
+echo|set /p="[97mWaiting for the device... [0m"
 adb wait-for-device
 
 :: Get device informations.
@@ -35,9 +36,7 @@ for /f "tokens=1,2" %%i in ('adb shell dumpsys battery') do ^if "%%i"=="level:" 
 for /f "tokens=4" %%i in ('adb shell df -h /data/media') do set STG=%%i
 :: Update the title.
 title %TITLE%-Connected-[Battery:%LVL%]-[IP:%ipaddrt%]-[Free space %STG%]
-
-:: Show devices.
-adb devices -l
+echo [92mDONE[0m
 echo(
 
 :: Check for install.txt
