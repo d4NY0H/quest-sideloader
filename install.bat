@@ -23,7 +23,7 @@ if not exist *.apk goto notFound
 
 :: Start the adb server.
 echo|set /p="[97mStarting the ADB server... [0m"
-adb start-server > NUL
+adb start-server > NUL 2>&1
 echo [92mDONE[0m
 
 :: Wait until device is connected.
@@ -68,19 +68,22 @@ goto successMsg
 :: Get device informations and update the title.
 call :updateTitle %TITLE%
 echo [92mInstallation successful.[0m
+adb kill-server
 pause
-goto quitScript
+exit
 
 :errorMsg
 echo(
 echo [91mError installing the APK or the obb file.[0m
+adb kill-server
 pause
-goto quitScript
+exit
 
 :notFound
 echo [91mNo apk file found in this folder.[0m
+adb kill-server
 pause
-goto quitScript
+exit
 
 :dirError
 echo [91mError! The required ADB files could not be found:[0m
@@ -92,7 +95,7 @@ echo Download from %PTURL%
 echo(
 set /p INPUT=Do you want to download it now? [y/n] 
 if /I '%INPUT%'=='y' goto downloadAdb
-if /I '%INPUT%'=='n' goto quitScript
+if /I '%INPUT%'=='n' exit
 
 :downloadAdb
 @echo(
@@ -108,7 +111,6 @@ echo(
 timeout 1 >nul
 :: Reload this script.
 call "%~f0"
-goto quitScript
 
 :updateTitle
 :: Get device informations.
