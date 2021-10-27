@@ -30,7 +30,7 @@ echo [92mDONE[0m
 echo|set /p="[97mWaiting for the device... [0m"
 adb wait-for-device
 :: Get device informations and update the title.
-call:updateTitle
+call:updateTitle %TITLE%
 echo [92mDONE[0m
 echo(
 
@@ -66,7 +66,7 @@ goto successMsg
 
 :successMsg
 :: Get device informations and update the title.
-call:updateTitle
+call:updateTitle %TITLE%
 echo [92mInstallation successful.[0m
 pause
 goto quitScript
@@ -112,11 +112,14 @@ goto quitScript
 
 :updateTitle
 :: Get device informations.
+SETLOCAL ENABLEDELAYEDEXPANSION
+set titleText=%~1
 for /f "tokens=9" %%a in ('adb shell ip route') do (set ipaddrt=%%a)
 for /f "tokens=1,2" %%i in ('adb shell dumpsys battery') do ^if "%%i"=="level:" set LVL=%%j
 for /f "tokens=4" %%i in ('adb shell df -h /data/media') do set STG=%%i
 :: Update the title.
-title %TITLE%-Connected-[Battery: %LVL%]-[IP: %ipaddrt%]-[Free space: %STG%]
+title %titleText%-Connected-[Battery: %LVL%]-[IP: %ipaddrt%]-[Free space: %STG%]
+ENDLOCAL
 exit /b 0
 
 :quitScript
