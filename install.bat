@@ -35,7 +35,7 @@ for /f "tokens=9" %%a in ('adb shell ip route') do (set ipaddrt=%%a)
 for /f "tokens=1,2" %%i in ('adb shell dumpsys battery') do ^if "%%i"=="level:" set LVL=%%j
 for /f "tokens=4" %%i in ('adb shell df -h /data/media') do set STG=%%i
 :: Update the title.
-title %TITLE%-Connected-[Battery:%LVL%]-[IP:%ipaddrt%]-[Free space %STG%]
+title %TITLE%-Connected-[Battery: %LVL%]-[IP: %ipaddrt%]-[Free space: %STG%]
 echo [92mDONE[0m
 echo(
 
@@ -62,8 +62,8 @@ goto Success
 :txt
 :: Execute each line inside install.txt.
 echo [97mExecute install.txt:[0m
-for /F "USEBACKQ TOKENS=*" %%A in (install.txt) do (
-    cmd /c "%%~A"
+for /f "USEBACKQ TOKENS=*" %%A in (install.txt) do (
+	cmd /c "%%~A"
 	if "%ERRORLEVEL%" NEQ "0" goto Error
 )
 echo(
